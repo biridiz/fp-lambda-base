@@ -25,6 +25,8 @@ subst x n (Or e1 e2) = Or (subst x n e1) (subst x n e2)
 subst x n (Not e) = Not (subst x n e)
 subst x n (Eq e1 e2) = Eq (subst x n e1) (subst x n e2)
 subst x n (Dif e1 e2) = Dif (subst x n e1) (subst x n e2)
+subst x n (Big e1 e2) = Big (subst x n e1) (subst x n e2)
+subst x n (Small e1 e2) = Small (subst x n e1) (subst x n e2)
 subst x n (If e1 e2 e3) = If (subst x n e1) (subst x n e2) (subst x n e3)
 subst x n (Paren e) = Paren (subst x n e)
 subst x n (Let v e1 e2) = Let v (subst x n e1) (subst x n e2)
@@ -51,6 +53,10 @@ step (Not BFalse) = BTrue
 step (Eq e1 e2) | e1 == e2 = BTrue
                 | otherwise = BFalse
 step (Dif e1 e2) | e1 /= e2 = BTrue
+                | otherwise = BFalse
+step (Big (Num e1) (Num e2)) | e1 > e2 = BTrue
+                | otherwise = BFalse
+step (Small (Num e1) (Num e2)) | e1 < e2 = BTrue
                 | otherwise = BFalse
 step (If BFalse e1 e2) = e2 
 step (If BTrue e1 e2) = e1 
