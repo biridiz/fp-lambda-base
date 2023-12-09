@@ -67,8 +67,10 @@ step (App (Lam x t b) e2) | isValue e2 = subst x e2 b
 step (App e1 e2) = App (step e1) e2
 step (Let v e1 e2) | isValue e1 = subst v e1 e2 
                    | otherwise = Let v (step e1) e2
+step (ExprList es) = ExprList (map step es)
 step e = error (show e)
 
-eval :: Expr -> Expr 
+eval :: Expr -> Expr
+eval (ExprList es) = ExprList (map eval es)
 eval e | isValue e = e 
        | otherwise = eval (step e)

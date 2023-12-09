@@ -54,7 +54,8 @@ typeof ctx (App e1 e2) = case (typeof ctx e1, typeof ctx e2) of
                            _  -> Nothing
 typeof ctx (Let v e1 e2) = case typeof ctx e1 of 
                              Just t1 -> typeof ((v, t1):ctx) e2 
-                             _       -> Nothing 
+                             _       -> Nothing
+typeof ctx (ExprList es) = Just TBool
 
 typecheck :: Expr -> Expr 
 typecheck e = case typeof [] e of 

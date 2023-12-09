@@ -21,6 +21,7 @@ data Expr = BTrue
           | App Expr Expr
           | Paren Expr
           | Let String Expr Expr 
+          | ExprList [Expr]
         deriving (Show, Eq)
 
 data Ty = TBool 
@@ -55,13 +56,19 @@ data Token = TokenTrue
            | TokenColon
            | TokenBoolean 
            | TokenNumber
+           | TokenLBracket
+           | TokenRBracket
+           | TokenComma
            deriving (Show, Eq)
 
 isSymb :: Char -> Bool 
 isSymb c = c `elem` "+&\\->()=:*|!><"
 
 lexer :: String -> [Token]
-lexer [] = [] 
+lexer [] = []
+lexer ('[':cs) = TokenLBracket : lexer cs
+lexer (']':cs) = TokenRBracket : lexer cs
+lexer (',':cs) = TokenComma : lexer cs
 lexer ('(':cs) = TokenLParen : lexer cs
 lexer (')':cs) = TokenRParen : lexer cs
 lexer (c:cs) | isSpace c = lexer cs 
