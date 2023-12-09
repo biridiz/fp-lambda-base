@@ -25,6 +25,8 @@ typeof ctx (And e1 e2) = case (typeof ctx e1, typeof ctx e2) of
 typeof ctx (Or e1 e2) = case (typeof ctx e1, typeof ctx e2) of 
                        (Just TBool, Just TBool) -> Just TBool 
                        _                        -> Nothing
+typeof ctx (Eq e1 e2) = Just TBool
+typeof ctx (Dif e1 e2) = Just TBool
 typeof ctx (Not e) = case typeof ctx e of 
                        Just TBool -> Just TBool 
                        _          -> Nothing

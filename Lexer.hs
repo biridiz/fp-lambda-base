@@ -12,6 +12,7 @@ data Expr = BTrue
           | Or Expr Expr 
           | Not Expr
           | Eq Expr Expr 
+          | Dif Expr Expr 
           | If Expr Expr Expr 
           | Var String
           | Lam String Ty Expr 
@@ -35,6 +36,7 @@ data Token = TokenTrue
            | TokenOr
            | TokenNot
            | TokenBoolEq
+           | TokenBoolDif
            | TokenIf 
            | TokenThen 
            | TokenElse
@@ -75,8 +77,9 @@ lexSymbol cs = case span isSymb cs of
                  ("*", rest)  -> TokenMul : lexer rest 
                  ("&&", rest) -> TokenAnd : lexer rest 
                  ("||", rest) -> TokenOr : lexer rest 
-                 ("!", rest) -> TokenNot : lexer rest 
+                 ("!", rest)  -> TokenNot : lexer rest 
                  ("==", rest) -> TokenBoolEq : lexer rest 
+                 ("!=", rest) -> TokenBoolDif : lexer rest 
                  ("\\", rest) -> TokenLam : lexer rest 
                  ("->", rest) -> TokenArrow : lexer rest 
                  ("=", rest)  -> TokenEq : lexer rest 
