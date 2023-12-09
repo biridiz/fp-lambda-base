@@ -10,13 +10,14 @@ data Expr = BTrue
           | Mul Expr Expr
           | And Expr Expr 
           | Or Expr Expr 
+          | Eq Expr Expr 
           | If Expr Expr Expr 
           | Var String
           | Lam String Ty Expr 
           | App Expr Expr
           | Paren Expr
           | Let String Expr Expr 
-          deriving Show
+        deriving (Show, Eq)
 
 data Ty = TBool 
         | TNum 
@@ -31,6 +32,7 @@ data Token = TokenTrue
            | TokenMul
            | TokenAnd 
            | TokenOr
+           | TokenBoolEq
            | TokenIf 
            | TokenThen 
            | TokenElse
@@ -71,6 +73,7 @@ lexSymbol cs = case span isSymb cs of
                  ("*", rest)  -> TokenMul : lexer rest 
                  ("&&", rest) -> TokenAnd : lexer rest 
                  ("||", rest) -> TokenOr : lexer rest 
+                 ("==", rest) -> TokenBoolEq : lexer rest 
                  ("\\", rest) -> TokenLam : lexer rest 
                  ("->", rest) -> TokenArrow : lexer rest 
                  ("=", rest)  -> TokenEq : lexer rest 
