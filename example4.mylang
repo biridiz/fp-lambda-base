@@ -1,0 +1,4 @@
+if (!false) then
+  4 - 2
+else
+  2 + 1

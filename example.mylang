@@ -1,1 +1,1 @@
-(\x : Num -> x + 1) 2
+(\x : Num -> if (x < 1) then x * 10 else x * 100) 2
